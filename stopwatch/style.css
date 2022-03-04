@@ -1,0 +1,73 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+body {
+    height: 100vh;
+    display: flex;
+}
+.container {
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.timer {
+    font-size: 70px;
+    border: 5px solid #333;
+    padding: 10px 50px;
+    border-radius: 20px;
+    background-color: rgb(238, 236, 236);
+}
+.second-container{
+    position: relative;
+}
+.milliseconds{
+    font-size: 20px;
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+}
+.bottomPart {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.btns {
+    /* width: 300px; */
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btns button {
+    width: 150px;
+    height: 70px;
+    border: 5px solid #333;
+    border-radius: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    font-size: 20px;
+}
+
+.btns .toggle-btn {
+    transition: all 0.3s ease;
+    background: rgb(56, 109, 207);
+    margin-right: 50px;
+}
+.btns .toggle-btn.on {
+    background-color: #26d920;
+}
+.btns .clear-btn{
+    transition: all 0.3s ease;
+    background-color: rgb(212, 44, 44);
+}

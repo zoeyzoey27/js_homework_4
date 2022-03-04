@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Stop watch</title>
+</head>
+<body>
+    <div class="container">
+        <div class="timer">
+            <span class="hours">00</span>
+            <span> : </span>
+            <span class="minutes">00</span> 
+            <span> : </span>
+            <span class="second-container">
+                <span class="seconds">00</span>  
+                <span class="milliseconds">000</span>   
+            </span>
+               
+        </div>
+        <div class="bottom-controls">
+            <div class="btns">  
+                <button class="toggle-btn">Start</button>
+                <button class="clear-btn">Clear</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let hr = min = sec = ms = "0" + 0, startTimer;
+        let isOn = false
+
+        const startBtn = document.querySelector(".toggle-btn"),
+        resetBtn = document.querySelector(".clear-btn");
+
+        function start() {
+          startBtn.classList.add("on");
+          startBtn.textContent = 'Pause';
+          isOn = true;
+          startTimer = setInterval(()=>{
+             ms++;
+             if (ms <10) ms = "00"+ ms;
+             if (ms>=10 && ms <=99) ms = "0" +ms;
+             if(ms == 100){
+                sec++;
+                sec = sec < 10 ? "0" + sec : sec;
+                ms = "00" + 0;
+              }
+              if(sec == 60){
+                 min++;
+                 min = min < 10 ? "0" + min : min;
+                 sec = "0" + 0;
+              }
+              if(min == 60){
+                 hr++;
+                 hr = hr < 10 ? "0" + hr : hr;
+                 min = "0" + 0;
+               }
+               putValue();
+          },10);
+        }
+
+        function stop() {
+            startBtn.textContent = 'Continue';
+            clearInterval(startTimer);
+            isOn = false;
+        }
+        function reset() {
+            startBtn.classList.remove("on");
+            startBtn.textContent = 'Start';
+            clearInterval(startTimer);
+            hr = min = sec = "0" + 0;
+            ms = "00" + 0;
+            putValue();
+            isOn = false;
+        }
+
+        function putValue() {
+            document.querySelector(".milliseconds").innerText = ms;
+            document.querySelector(".seconds").innerText = sec;
+            document.querySelector(".minutes").innerText = min;
+            document.querySelector(".hours").innerText = hr;
+        }
+        startBtn.addEventListener('click', function () {
+                isOn ? stop() : start();
+        });
+        resetBtn.addEventListener("click", reset);
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Count down</title>
+</head>
+<body>
+    <div class="container">
+        <div class="timer">
+            <span class="hours">00</span>
+            <span> : </span>
+            <span class="minutes">00</span> 
+            <span> : </span>
+            <span class="second-container">
+                <span class="seconds">00</span>  
+                <span class="milliseconds">000</span>   
+            </span>
+               
+        </div>
+        <div class="bottom-controls">
+            <div class="btns">  
+                <button class="toggle-btn">Start</button>
+                <button class="clear-btn">Clear</button>
+            </div>
+            <div class="btns-setting">
+                 <div class="btns-number">
+                    <button class="number-btn">0</button>
+                    <button class="number-btn">1</button>
+                    <button class="number-btn">2</button>
+                    <button class="number-btn">3</button>
+                    <button class="number-btn">4</button>
+                    <button class="number-btn">5</button>
+                    <button class="number-btn">6</button>
+                    <button class="number-btn">7</button>
+                    <button class="number-btn">8</button>
+                    <button class="number-btn">9</button>
+                 </div>
+                 <div class="btns-control">
+                    <button class="setting">Set</button>
+                    <button class="clear">Clear</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        let numBtns = document.querySelectorAll(".number-btn");
+        let sec = document.querySelector(".seconds").innerText;
+        let min = document.querySelector(".minutes").innerText;
+        let hr = document.querySelector(".hours").innerText;
+
+        let clicked = 0, tmp= "";
+        for (let i=0; i<numBtns.length; i++){
+            numBtns[i].onclick = function (){
+                clicked ++;
+                tmp += numBtns[i].innerText;
+                if (clicked == 1) {
+                    sec = "0" + tmp;
+                    putValue();
+                }    
+                if (clicked == 2) {
+                    sec = tmp;
+                    putValue();
+                }    
+                if (clicked ==3){
+                    min = "0" + tmp[0];
+                    sec =tmp[1]+tmp[2];
+                    putValue();
+                } 
+                if (clicked == 4){
+                    min =tmp[0]+tmp[1];
+                    sec =tmp[2]+tmp[3];
+                    putValue();
+                }
+                if (clicked == 5){
+                    hr ="0"+tmp[0];
+                    min =tmp[1]+tmp[2];
+                    sec =tmp[3]+tmp[4];
+                    putValue();
+                }
+                if (clicked == 6){
+                    hr =tmp[0]+tmp[1];
+                    min =tmp[2]+tmp[3];
+                    sec =tmp[4]+tmp[5];
+                    putValue();
+                }
+            }
+        }
+
+        if (sec == "00" && min == "00" && hr == "00") {
+               hr = min = "0"+ 0;
+               ms = "00" + 0;
+               sec = 10;
+        }
+        
+        let startTimer,isOn = false;
+
+        const startBtn = document.querySelector(".toggle-btn"),
+        resetBtn = document.querySelector(".clear-btn"),
+        setBtn = document.querySelector(".setting")
+        clearBtn = document.querySelector(".clear");
+
+        function start() {
+          startBtn.classList.add("on");
+          startBtn.textContent = 'Pause';
+          isOn = true;
+          startTimer = setInterval(()=>{
+             ms != 0 ? ms-- : ms = 0;
+             if (ms <10) ms = "00"+ ms;
+             if (ms>=10 && ms <=99) ms = "0" +ms;
+             if (ms == 0){
+                 if (sec > 0){
+                    sec--;
+                    sec = sec < 10 ? "0" + sec : sec;
+                    ms = 100;
+                 }
+              }
+              if(sec == 0){
+                if (min > 0){
+                    min--;
+                    min = min < 10 ? "0" + min : min;
+                    sec = 59;
+                }
+              }
+              if(min == 0){
+                  if (hr>0){
+                    hr--;
+                    hr = hr < 10 ? "0" + hr : hr;
+                    min = 59;
+                  }
+               }
+               if (hr == "00" && min == 0 && sec == 0 && ms == 0) reset();
+               putValue();
+          },10);
+        }
+
+        function stop() {
+            startBtn.textContent = 'Continue';
+            clearInterval(startTimer);
+            isOn = false;
+        }
+        function clear() {
+            startBtn.classList.remove("on");
+            startBtn.textContent = 'Start';
+            clearInterval(startTimer);
+            hr = min = sec = "0" + 0;
+            ms = "00" + 0;
+            putValue();
+            isOn = false;
+        }
+
+        function reset() {
+            startBtn.classList.remove("on");
+            startBtn.textContent = 'Start';
+            clearInterval(startTimer);
+            hr = min = "0" + 0;
+            ms = "00" + 0;
+            sec = "1"+ 0;
+            putValue();
+            isOn = false;
+        }
+
+        function putValue() {
+            document.querySelector(".milliseconds").innerText = ms;
+            document.querySelector(".seconds").innerText = sec;
+            document.querySelector(".minutes").innerText = min;
+            document.querySelector(".hours").innerText = hr;
+        }
+        startBtn.addEventListener('click', function () {
+                isOn ? stop() : start();
+        });
+        resetBtn.addEventListener("click", reset);
+        setBtn.addEventListener("click",function(){
+            document.querySelector(".btns").classList.add("on");
+            document.querySelector(".btns-setting").classList.add("off");
+            if (sec == "00" && min == "00" && hr == "00") {
+               hr = min = "0"+ 0;
+               ms = "00" + 0;
+               sec = 10;
+            }
+            putValue();
+        });
+        clearBtn.addEventListener("click", clear);
+    </script>
+</body>
+</html>
